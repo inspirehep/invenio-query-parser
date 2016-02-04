@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # This file is part of Invenio-Query-Parser.
-# Copyright (C) 2014 CERN.
+# Copyright (C) 2014, 2015, 2016 CERN.
 #
 # Invenio-Query-Parser is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License as
@@ -24,8 +24,8 @@
 """SPIRES extended Pypeg to AST converter."""
 
 from invenio_query_parser import ast
-from invenio_query_parser.walkers import pypeg_to_ast
 from invenio_query_parser.visitor import make_visitor
+from invenio_query_parser.walkers import pypeg_to_ast
 
 from .. import parser
 from ..ast import SpiresOp
@@ -51,6 +51,14 @@ class PypegConverter(pypeg_to_ast.PypegConverter):
     @visitor(parser.GreaterEqualQuery)
     def visit(self, node, child):
         return ast.GreaterEqualOp(child)
+
+    @visitor(parser.RangeOperation)
+    def visit(self, node, left, right):
+        return ast.RangeOp(left, right)
+
+    @visitor(parser.RangeValue)
+    def visit(self, node):
+        return ast.Value(node.value)
 
     @visitor(parser.LowerQuery)
     def visit(self, node, child):

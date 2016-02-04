@@ -139,6 +139,18 @@ class SpiresSimpleQuery(UnaryRule):
     grammar = attr('op', [SpiresKeywordQuery, SpiresValueQuery])
 
 
+class RangeValue(LeafRule):
+    grammar = attr('value', re.compile(r"([^\s\)\(-]|-+[^\s\)\(>])+"))
+
+
+class RangeOperation(BinaryRule):
+    grammar = (
+        attr('left', RangeValue),
+        Literal('->'),
+        attr('right', RangeValue)
+    )
+
+
 class SpiresQuery(ListRule):
     pass
 
@@ -242,6 +254,7 @@ SpiresKeywordQuery.grammar = [
             GreaterQuery,
             LowerEqualQuery,
             LowerQuery,
+            RangeOperation,
             SpiresValue
         ])
     ),
