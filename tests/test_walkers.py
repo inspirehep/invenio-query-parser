@@ -53,4 +53,8 @@ class TestSpiresToInvenio(object):
          KeywordOp(Keyword('title'), Value('quark'))),
         ("find d after yesterday",
          KeywordOp(Keyword('year'), GreaterOp(Value('yesterday')))),
+        ("FIND A LEONTSINIS",
+         KeywordOp(Keyword('author'), Value('LEONTSINIS'))),
+        ("FIND EA RINALDI, MASSIMILIANO",
+         KeywordOp(Keyword('exactauthor'), Value('RINALDI, MASSIMILIANO'))),
     )
